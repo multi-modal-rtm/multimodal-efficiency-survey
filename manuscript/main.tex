@@ -1,0 +1,47 @@
+% JAIR submission template
+% Download jair.sty and theapa.bst from https://www.jair.org/index.php/jair/about/submissions
+% and place them in this directory (or on your TeX path).
+
+\documentclass[jair,twoside,11pt,theapa]{article}
+
+\usepackage{jair}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{amsmath}
+
+\ShortHeadings{Multimodal Efficiency Survey}{Author et al.}
+\firstpageno{1}
+
+\begin{document}
+
+\title{Efficiency Techniques for Multimodal Large Language Models:\\
+       A Systematic Survey}
+
+\author{%
+  \name Author A \email author.a@institution.edu \\
+  \addr Department, Institution, City, Country
+  \AND
+  \name Author B \email author.b@institution.edu \\
+  \addr Department, Institution, City, Country
+}
+
+\editor{TBD}
+
+\maketitle
+
+\begin{abstract}
+% TODO
+\end{abstract}
+
+\input{sections/introduction}
+\input{sections/background}
+\input{sections/methodology}
+\input{sections/results}
+\input{sections/discussion}
+\input{sections/conclusion}
+
+\bibliography{../papers/bibtex/references}
+
+\end{document}

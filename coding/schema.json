@@ -1,0 +1,462 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "multimodal-efficiency-survey/coding/schema.json",
+  "title": "PaperCodingEntry",
+  "description": "Schema for a single paper's coded entry. Enum values match rubric/rubric_v1.md v1.0-draft.",
+  "type": "object",
+  "required": ["paper_id", "bibkey", "coder_id", "coding_date"],
+  "additionalProperties": false,
+  "properties": {
+
+    "paper_id": {
+      "type": "string",
+      "description": "Short alphanumeric identifier for the paper (e.g. 'liu2023llava'). Must be unique across all coded entries."
+    },
+
+    "bibkey": {
+      "type": "string",
+      "description": "BibTeX citation key matching the entry in papers/bibtex/."
+    },
+
+    "coder_id": {
+      "type": "string",
+      "description": "Identifier for the human coder (e.g. 'coder_A', 'coder_B')."
+    },
+
+    "coding_date": {
+      "type": "string",
+      "format": "date",
+      "description": "ISO 8601 date on which this entry was coded (YYYY-MM-DD)."
+    },
+
+    "axis_1a_encoder_config": {
+      "type": "object",
+      "description": "Axis 1a: Encoder configuration across modalities.",
+      "additionalProperties": false,
+      "properties": {
+        "primary": {
+          "type": "string",
+          "enum": [
+            "unimodal-pretrained-frozen",
+            "unimodal-pretrained-tuned",
+            "multimodal-pretrained",
+            "from-scratch",
+            "mixed",
+            "NA",
+            "NR"
+          ]
+        },
+        "secondary": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "unimodal-pretrained-frozen",
+              "unimodal-pretrained-tuned",
+              "multimodal-pretrained",
+              "from-scratch",
+              "mixed",
+              "NA",
+              "NR"
+            ]
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+
+    "axis_1b_fusion_mechanism": {
+      "type": "object",
+      "description": "Axis 1b: Cross-modal fusion mechanism.",
+      "additionalProperties": false,
+      "properties": {
+        "primary": {
+          "type": "string",
+          "enum": [
+            "early-concat",
+            "late-fusion",
+            "dense-cross-attention",
+            "bottleneck-attention",
+            "progressive",
+            "query-based",
+            "linear-mlp-projection",
+            "gated-mixture",
+            "tensor-fusion",
+            "subspace-decomposition",
+            "other-specify",
+            "NA",
+            "NR"
+          ]
+        },
+        "secondary": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "early-concat",
+              "late-fusion",
+              "dense-cross-attention",
+              "bottleneck-attention",
+              "progressive",
+              "query-based",
+              "linear-mlp-projection",
+              "gated-mixture",
+              "tensor-fusion",
+              "subspace-decomposition",
+              "other-specify",
+              "NA",
+              "NR"
+            ]
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+
+    "axis_1c_modality_set": {
+      "type": "array",
+      "description": "Axis 1c: All modalities processed by the model (multi-label; no primary/secondary distinction).",
+      "items": {
+        "type": "string",
+        "enum": [
+          "audio",
+          "vision-image",
+          "vision-video",
+          "text",
+          "physiological",
+          "motion",
+          "other"
+        ]
+      },
+      "uniqueItems": true,
+      "minItems": 1
+    },
+
+    "axis_2_adaptation": {
+      "type": "object",
+      "description": "Axis 2: Parameter adaptation / fine-tuning strategy.",
+      "additionalProperties": false,
+      "properties": {
+        "primary": {
+          "type": "string",
+          "enum": [
+            "full-FT",
+            "frozen-backbone-linear",
+            "LoRA-family",
+            "adapter-modules",
+            "prefix-prompt-tuning",
+            "zero-init-attention",
+            "bias-only",
+            "partial-FT",
+            "hybrid",
+            "NA",
+            "NR"
+          ]
+        },
+        "secondary": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "full-FT",
+              "frozen-backbone-linear",
+              "LoRA-family",
+              "adapter-modules",
+              "prefix-prompt-tuning",
+              "zero-init-attention",
+              "bias-only",
+              "partial-FT",
+              "hybrid",
+              "NA",
+              "NR"
+            ]
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+
+    "axis_3a_optimizer": {
+      "type": "object",
+      "description": "Axis 3a: Optimization algorithm.",
+      "additionalProperties": false,
+      "properties": {
+        "primary": {
+          "type": "string",
+          "enum": [
+            "AdamW-standard",
+            "Adam-8bit",
+            "SGD-momentum",
+            "Lion",
+            "LOMO-AdaLOMO",
+            "GaLore",
+            "Adafactor",
+            "other-specify",
+            "NA",
+            "NR"
+          ]
+        },
+        "secondary": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "AdamW-standard",
+              "Adam-8bit",
+              "SGD-momentum",
+              "Lion",
+              "LOMO-AdaLOMO",
+              "GaLore",
+              "Adafactor",
+              "other-specify",
+              "NA",
+              "NR"
+            ]
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+
+    "axis_3b_memory_techniques": {
+      "type": "array",
+      "description": "Axis 3b: Memory-reduction techniques applied (multi-label).",
+      "items": {
+        "type": "string",
+        "enum": [
+          "gradient-checkpointing",
+          "activation-recomputation",
+          "gradient-accumulation",
+          "CPU-offload",
+          "NVMe-offload",
+          "kernel-fusion-Triton",
+          "FlashAttention",
+          "paged-optimizers",
+          "none-reported"
+        ]
+      },
+      "uniqueItems": true
+    },
+
+    "axis_4a_precision": {
+      "type": "object",
+      "description": "Axis 4a: Numerical precision / quantization format.",
+      "additionalProperties": false,
+      "properties": {
+        "primary": {
+          "type": "string",
+          "enum": [
+            "FP32",
+            "FP16-mixed",
+            "BF16-mixed",
+            "INT8-PTQ",
+            "INT8-QAT",
+            "INT4-NF4",
+            "mixed-other",
+            "NA",
+            "NR"
+          ]
+        },
+        "secondary": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "FP32",
+              "FP16-mixed",
+              "BF16-mixed",
+              "INT8-PTQ",
+              "INT8-QAT",
+              "INT4-NF4",
+              "mixed-other",
+              "NA",
+              "NR"
+            ]
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+
+    "axis_4b_sparsity": {
+      "type": "object",
+      "description": "Axis 4b: Weight or activation sparsity / pruning strategy.",
+      "additionalProperties": false,
+      "properties": {
+        "primary": {
+          "type": "string",
+          "enum": [
+            "none",
+            "unstructured-pruning",
+            "structured-pruning",
+            "N-M-structured",
+            "RigL-family",
+            "MoE-architectural",
+            "NA",
+            "NR"
+          ]
+        },
+        "secondary": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "none",
+              "unstructured-pruning",
+              "structured-pruning",
+              "N-M-structured",
+              "RigL-family",
+              "MoE-architectural",
+              "NA",
+              "NR"
+            ]
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+
+    "axis_5_topology": {
+      "type": "object",
+      "description": "Axis 5: Training or inference topology / parallelism strategy.",
+      "additionalProperties": false,
+      "properties": {
+        "primary": {
+          "type": "string",
+          "enum": [
+            "single-GPU",
+            "single-node-multi-GPU-DDP",
+            "ZeRO-1",
+            "ZeRO-2",
+            "ZeRO-3",
+            "FSDP",
+            "ZeRO-family-NR-stage",
+            "tensor-pipeline-parallel",
+            "3D-parallel",
+            "DiLoCo-family",
+            "Petals-family",
+            "MoE-distributed",
+            "federated",
+            "NA",
+            "NR"
+          ]
+        },
+        "secondary": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "single-GPU",
+              "single-node-multi-GPU-DDP",
+              "ZeRO-1",
+              "ZeRO-2",
+              "ZeRO-3",
+              "FSDP",
+              "ZeRO-family-NR-stage",
+              "tensor-pipeline-parallel",
+              "3D-parallel",
+              "DiLoCo-family",
+              "Petals-family",
+              "MoE-distributed",
+              "federated",
+              "NA",
+              "NR"
+            ]
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+
+    "hardware_reported": {
+      "type": "string",
+      "description": "Verbatim hardware string as it appears in the paper."
+    },
+
+    "hardware_tier": {
+      "type": "string",
+      "enum": ["consumer", "prosumer", "enterprise", "hyperscaler", "NR"],
+      "description": "Normalized hardware tier. See rubric Hardware Tier section for VRAM-based cut definitions."
+    },
+
+    "compute_reported": {
+      "type": "object",
+      "description": "Compute cost information.",
+      "additionalProperties": false,
+      "required": ["reported"],
+      "properties": {
+        "value": {
+          "type": ["string", "null"],
+          "description": "Verbatim compute cost figure from the paper (GPU-hours, FLOPs, etc.). Null if not reported."
+        },
+        "reported": {
+          "type": "boolean",
+          "description": "True if any compute cost figure appears in the paper; false otherwise."
+        }
+      }
+    },
+
+    "trainable_params": {
+      "type": "object",
+      "description": "Trainable parameter count and fraction of total parameters.",
+      "additionalProperties": false,
+      "properties": {
+        "count": {
+          "type": ["string", "null"],
+          "description": "Number of trainable parameters (e.g. '7B', '335M'). Null if not reported."
+        },
+        "percent": {
+          "type": ["number", "null"],
+          "description": "Fraction of total parameters that are trainable, expressed as a percentage (0–100). Null if not reported.",
+          "minimum": 0,
+          "maximum": 100
+        }
+      }
+    },
+
+    "datasets": {
+      "type": "array",
+      "description": "All datasets used for training or evaluation. Use controlled vocabulary from rubric Controlled Vocabularies section.",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+
+    "task": {
+      "type": "string",
+      "description": "Primary task evaluated. Use controlled vocabulary from rubric Controlled Vocabularies section."
+    },
+
+    "efficiency_engagement": {
+      "type": "string",
+      "enum": ["primary", "secondary", "incidental"],
+      "description": "How central is efficiency to the paper's contribution? See rubric Efficiency Engagement section."
+    },
+
+    "simulation_methodology": {
+      "type": "string",
+      "description": "Free text: pre-flight tooling, theoretical cost analysis described in the paper."
+    },
+
+    "variants_explored": {
+      "type": "string",
+      "description": "Free text: ablations or model variants tested in the paper."
+    },
+
+    "coder_notes": {
+      "type": "string",
+      "description": "Free text: coder rationale, ambiguities, and other-specify elaborations."
+    },
+
+    "uncertainty_flags": {
+      "type": "array",
+      "description": "Axis field names where the coder was uncertain about their assignment. Used to prioritize adjudication.",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    }
+
+  }
+}
