@@ -4,6 +4,7 @@ Run after any structural change to the repository.
 Exit code 0 if all checks pass, 1 if any errors found.
 """
 
+import csv
 import json
 from pathlib import Path
 
@@ -49,6 +50,22 @@ for enum_path, enum_values in collect_enums(schema):
         if value not in rubric_text:
             ERRORS.append(
                 f"Enum value '{value}' (at {enum_path}) not found in rubric_v1.md"
+            )
+
+# Check 3: Every row in every CSV has the same number of fields as the header
+for csv_path in csvs:
+    with open(csv_path, newline="") as f:
+        reader = csv.reader(f)
+        rows = list(reader)
+    if not rows:
+        continue
+    header_field_count = len(rows[0])
+    for i, row in enumerate(rows[1:], start=2):
+        # csv.reader handles trailing newlines and empty rows as needed
+        if len(row) != header_field_count:
+            ERRORS.append(
+                f"Row {i} of {csv_path} has {len(row)} fields, "
+                f"expected {header_field_count} (matching header)"
             )
 
 # Report
