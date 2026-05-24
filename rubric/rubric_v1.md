@@ -1,7 +1,8 @@
 # Multimodal Efficiency Survey — Coding Rubric
 
-**Version:** 1.0-draft
-**Date:** 2026-05-23
+**Version:** 1.1
+**Date:** 2026-05-24
+**Previous version:** v1.0 (tagged 2026-05-23)
 **Status:** Pre-registration pending — do not begin coding until this document is tagged as release v1.0
 
 ## Scope
@@ -123,6 +124,10 @@ This rubric governs systematic qualitative coding of papers for a survey on effi
 | `LOMO-AdaLOMO` | Hook-fused gradient + update (LOMO, AdaLOMO) |
 | `GaLore` | Gradient low-rank projection |
 | `Adafactor` | Adafactor |
+| `federated-optimizer` | Federated learning optimizers including FedAvg, FedProx, FedDisc-family |
+| `policy-gradient` | Policy-gradient methods including GRPO, PPO, RLHF-style training |
+| `Adam-no-WD` | Adam without weight decay (distinct from AdamW) |
+| `LAMB-LARS` | Layer-wise adaptive optimizers (LAMB, LARS) for large-batch training |
 | `other-specify` | Other optimizer; specify in `coder_notes` |
 | `NA` | Paper does not involve training |
 | `NR` | Optimizer not reported |
@@ -184,12 +189,13 @@ This rubric governs systematic qualitative coding of papers for a survey on effi
 | `N-M-structured` | N:M structured sparsity (e.g., 2:4) |
 | `RigL-family` | Dynamic sparse training (RigL, SRigL) |
 | `MoE-architectural` | MoE used as explicit architectural efficiency choice (not inherited) |
+| `MoE-over-PEFT` | Mixture-of-Experts routing applied to PEFT modules (LoRA experts, adapter experts), distinct from architectural backbone MoE |
 | `NA` | Paper does not engage with sparsity |
 | `NR` | Sparsity mentioned but not characterized |
 
 **Evidence rule:** Needs an explicit method named or a sparsity ratio reported.
 
-**Gotcha:** Distillation is not sparsity. A paper using Mixtral as a backbone is not "doing MoE for efficiency" — it inherits MoE. Code `MoE-architectural` only when the paper makes an architectural sparsity choice for the model being built. MoE topology (X-MoE-style expert parallelism) goes in Axis 5.
+**Gotcha:** Distillation is not sparsity. A paper using Mixtral as a backbone is not "doing MoE for efficiency" — it inherits MoE. Code `MoE-architectural` only when the paper makes an architectural sparsity choice for the model being built. Code `MoE-over-PEFT` when MoE routing is applied to inserted PEFT modules (e.g., MoE-over-LoRA-experts as in MMLORA). MoE topology (X-MoE-style expert parallelism) goes in Axis 5.
 
 ---
 
@@ -235,6 +241,7 @@ These are coded per paper but are not categorical axes.
 | `datasets` | array | Controlled vocabulary, multi-label |
 | `task` | string | Controlled vocabulary |
 | `efficiency_engagement` | enum | `primary` / `secondary` / `incidental` |
+| `domain_relevance` | enum | `core-affective` / `adjacent-interaction` / `method-source` |
 | `simulation_methodology` | string (free text) | Pre-flight tooling, theoretical cost analysis |
 | `variants_explored` | string (free text) | Ablations or model variants tested |
 | `coder_notes` | string (free text) | Coder rationale, ambiguities, `other-specify` elaborations |
@@ -267,6 +274,16 @@ Tier is determined by aggregate VRAM and node count, not chip-class identity.
 | `incidental` | Paper mentions infrastructure choices but they are not load-bearing |
 
 **Why this field matters:** NR rates partitioned by `efficiency_engagement` separate "the field underreports memory techniques where they matter" (real finding) from "this paper didn't need to report because efficiency was orthogonal to the contribution" (not a finding).
+
+### Domain Relevance
+
+| Code | Definition |
+|------|-----------|
+| `core-affective` | Paper's primary task is human social or affective behavior analysis (emotion recognition, sentiment, engagement, social action detection on IEMOCAP/MELD/CMU-MOSEI/AffWild2/Social-IQ/etc.) |
+| `adjacent-interaction` | Paper analyzes human-generated multimodal content but not specifically social/affective (general multimodal activity recognition, audio-visual event localization without affective component) |
+| `method-source` | Paper develops a method on non-affective data (vision-language instruction-following, image captioning, ScienceQA) that is cited because the method transfers to affective work |
+
+**Why this field exists:** Downstream analyses defending claims about "the affective computing field" should filter to `core-affective` papers. `method-source` papers establish that a technique exists but should not be used to support claims about how the affective community adopts techniques.
 
 ### Controlled Vocabularies
 

@@ -4,7 +4,7 @@
   "title": "PaperCodingEntry",
   "description": "Schema for a single paper's coded entry. Enum values match rubric/rubric_v1.md v1.0-draft.",
   "type": "object",
-  "required": ["paper_id", "bibkey", "coder_id", "coding_date"],
+  "required": ["paper_id", "bibkey", "coder_id", "coding_date", "domain_relevance"],
   "additionalProperties": false,
   "properties": {
 
@@ -191,6 +191,10 @@
             "LOMO-AdaLOMO",
             "GaLore",
             "Adafactor",
+            "federated-optimizer",
+            "policy-gradient",
+            "Adam-no-WD",
+            "LAMB-LARS",
             "other-specify",
             "NA",
             "NR"
@@ -208,6 +212,10 @@
               "LOMO-AdaLOMO",
               "GaLore",
               "Adafactor",
+              "federated-optimizer",
+              "policy-gradient",
+              "Adam-no-WD",
+              "LAMB-LARS",
               "other-specify",
               "NA",
               "NR"
@@ -292,6 +300,7 @@
             "N-M-structured",
             "RigL-family",
             "MoE-architectural",
+            "MoE-over-PEFT",
             "NA",
             "NR"
           ]
@@ -307,6 +316,7 @@
               "N-M-structured",
               "RigL-family",
               "MoE-architectural",
+              "MoE-over-PEFT",
               "NA",
               "NR"
             ]
@@ -432,6 +442,12 @@
       "type": "string",
       "enum": ["primary", "secondary", "incidental"],
       "description": "How central is efficiency to the paper's contribution? See rubric Efficiency Engagement section."
+    },
+
+    "domain_relevance": {
+      "type": "string",
+      "enum": ["core-affective", "adjacent-interaction", "method-source"],
+      "description": "Domain relevance of the paper. See rubric Domain Relevance section."
     },
 
     "simulation_methodology": {
