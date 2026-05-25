@@ -1,9 +1,9 @@
-# Multimodal Efficiency Survey — Coding Rubric
+Status# Multimodal Efficiency Survey — Coding Rubric
 
 **Version:** 1.1
 **Date:** 2026-05-24
 **Previous version:** v1.0 (tagged 2026-05-23)
-**Status:** Pre-registration pending — do not begin coding until this document is tagged as release v1.0
+**Status**: Active. Pre-registered as v1.0 on 2026-05-23; revised to v1.1 on 2026-05-24 following pilot coding of twelve papers. Subsequent rubric changes require a new tagged release and CHANGELOG entry.
 
 ## Scope
 
@@ -304,4 +304,4 @@ Tier is determined by aggregate VRAM and node count, not chip-class identity.
 
 ## Pre-Registration
 
-When this rubric is finalized, tag the repository as release `v1.0` and push to GitHub. All changes after that point require a new tagged version and a `CHANGELOG.md` entry. Retroactive re-coding of already-coded papers requires explicit documentation of which papers were affected.
+The rubric was pre-registered as v1.0 on 2026-05-23 prior to any paper coding. Post-pilot revisions were tagged as v1.1 on 2026-05-24 with the full diff documented in CHANGELOG.md. All future changes require a new tagged version and a CHANGELOG.md entry. Retroactive re-coding of already-coded papers requires explicit documentation of which papers were affected and why.
